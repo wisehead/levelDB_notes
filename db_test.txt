@@ -27,3 +27,10 @@ main
 #5  0x0000000000425683 in main (argc=1, argv=0x7fffffffe168) at /home/chenhui/leveldb/db/db_test.cc:2298
 
 5.
+
+
+
+
+
+
+
