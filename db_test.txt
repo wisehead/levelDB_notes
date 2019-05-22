@@ -17,3 +17,13 @@ main
 --DestroyDB(dbname_, Options())
 --Reopen
 
+4.
+(gdb) bt
+#0  leveldb::DBImpl::Get (this=0x698c80, options=..., key=..., value=0x7fffffffdd70) at /home/chenhui/leveldb/db/db_impl.cc:1106
+#1  0x0000000000428624 in leveldb::DBTest::Get (this=0x7fffffffdf40, k="foo", snapshot=0x0) at /home/chenhui/leveldb/db/db_test.cc:325
+#2  0x00000000004051c3 in leveldb::_Test_Empty::_Run (this=0x7fffffffdf40) at /home/chenhui/leveldb/db/db_test.cc:541
+#3  0x0000000000429be8 in leveldb::_Test_Empty::_RunIt () at /home/chenhui/leveldb/db/db_test.cc:538
+#4  0x0000000000403d50 in leveldb::test::RunAllTests () at /home/chenhui/leveldb/util/testharness.cc:56
+#5  0x0000000000425683 in main (argc=1, argv=0x7fffffffe168) at /home/chenhui/leveldb/db/db_test.cc:2298
+
+5.
