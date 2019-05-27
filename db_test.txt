@@ -29,7 +29,19 @@ main
 5.DBImpl::Get
 --snapshot = versions_->LastSequence()
 --current = versions_->current()
-
+--leveldb::MemTable::Get
+----leveldb::SkipList<char const*, leveldb::MemTable::KeyComparator>::Iterator::Seek 
+------leveldb::SkipList<char const*, leveldb::MemTable::KeyComparator>::FindGreaterOrEqual
+--leveldb::Version::Get
+----FindFile
+----TableCache::Get
+------TableCache::FindTable
+--------NewRandomAccessFile
+----------::open(filename.c_str(), O_RDONLY | kOpenBaseFlags);
+----------GetFileSize
+----------::mmap(/*addr=*/nullptr, file_size, PROT_READ, MAP_SHARED, fd, 0);
+---------- new PosixMmapReadableFile
+----------::close(fd);
 
 
 
