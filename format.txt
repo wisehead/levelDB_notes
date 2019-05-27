@@ -1,0 +1,21 @@
+1.class Footer
+// Footer encapsulates the fixed information stored at the tail
+// end of every table file.
+
+
+2.Footer::DecodeFrom
+
+Footer::DecodeFrom
+--BlockHandle::DecodeFrom
+
+
+3. class BlockHandle 
+// BlockHandle is a pointer to the extent of a file that stores a data
+// block or a meta block.
+
+
+
+
+
+
+

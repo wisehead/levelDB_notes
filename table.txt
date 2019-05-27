@@ -21,4 +21,11 @@
                      
                      
 2.Table::Open
-                     
+Table::Open
+--PosixRandomAccessFile.Read
+--footer.DecodeFrom      
+--ReadBlock               
+----PosixRandomAccessFile::Read
+----case kNoCompression:
+----case kSnappyCompression:
+
