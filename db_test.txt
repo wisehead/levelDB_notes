@@ -17,7 +17,10 @@ main
 --DestroyDB(dbname_, Options())
 --Reopen
 
-4.br leveldb::DBImpl::Get
+4.
+br leveldb::DBImpl::Get
+br leveldb::DBImpl::Put
+
 (gdb) bt
 #0  leveldb::DBImpl::Get (this=0x698c80, options=..., key=..., value=0x7fffffffdd70) at /home/chenhui/leveldb/db/db_impl.cc:1106
 #1  0x0000000000428624 in leveldb::DBTest::Get (this=0x7fffffffdf40, k="foo", snapshot=0x0) at /home/chenhui/leveldb/db/db_test.cc:325
@@ -40,6 +43,20 @@ main
 ------Table::InternalGet
 
 
+6.(gdb) bt
+#0  leveldb::DBImpl::Put (this=0x698c80, o=..., key=..., val=...) at /home/chenhui/leveldb/db/db_impl.cc:1179
+#1  0x0000000000428503 in leveldb::DBTest::Put (this=0x7fffffffe0b0, k="", v="v1") at /home/chenhui/leveldb/db/db_test.cc:316
+#2  0x0000000000405357 in leveldb::_Test_EmptyKey::_Run (this=0x7fffffffe0b0) at /home/chenhui/leveldb/db/db_test.cc:547
+#3  0x0000000000429c7e in leveldb::_Test_EmptyKey::_RunIt () at /home/chenhui/leveldb/db/db_test.cc:545
+#4  0x0000000000403d50 in leveldb::test::RunAllTests () at /home/chenhui/leveldb/util/testharness.cc:56
+#5  0x0000000000425683 in main (argc=1, argv=0x7fffffffe2d8) at /home/chenhui/leveldb/db/db_test.cc:2298
+
+
+7.Put
+
+leveldb::DBTest::Put
+--DBImpl::Put
+----DB::Put
 
 
 
