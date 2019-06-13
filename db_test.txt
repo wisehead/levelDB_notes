@@ -57,6 +57,12 @@ br leveldb::DBImpl::Put
 leveldb::DBTest::Put
 --DBImpl::Put
 ----DB::Put
+------WriteBatch::Put
+--------WriteBatchInternal::Count
+--------WriteBatchInternal::SetCount
+--------rep_.push_back(static_cast<char>(kTypeValue));
+--------PutLengthPrefixedSlice
+----DBImpl::Write
 
 
 
