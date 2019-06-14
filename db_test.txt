@@ -74,6 +74,13 @@ leveldb::DBTest::Put
 ------------------DBImpl::BackgroundCall
 --------------------DBImpl::BackgroundCompaction
 ----------------------DBImpl::CompactMemTable
+------------------------DBImpl::WriteLevel0Table
+--------------------------pending_outputs_.insert(meta.number);
+--------------------------MemTable::NewIterator
+--------------------------BuildTableldb file
+----------------------------NewWritableFile
+----------------------------new TableBuilder
+----------------------------TableBuilder::Add
 --------------------MaybeScheduleCompaction
 
 
