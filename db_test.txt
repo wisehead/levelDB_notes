@@ -63,6 +63,18 @@ leveldb::DBTest::Put
 --------rep_.push_back(static_cast<char>(kTypeValue));
 --------PutLengthPrefixedSlice
 ----DBImpl::Write
+------DBImpl::MakeRoomForWrite
+--------NewWritableFile
+--------mem_ = new MemTable(internal_comparator_);
+--------DBImpl::MaybeScheduleCompaction
+----------PosixEnv::Schedule
+------------BackgroundThreadEntryPoint
+--------------PosixEnv::BackgroundThreadMain
+----------------DBImpl::BGWork
+------------------DBImpl::BackgroundCall
+--------------------DBImpl::BackgroundCompaction
+----------------------DBImpl::CompactMemTable
+--------------------MaybeScheduleCompaction
 
 
 
