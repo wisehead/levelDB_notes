@@ -62,7 +62,7 @@ leveldb::DBTest::Put
 --------WriteBatchInternal::SetCount
 --------rep_.push_back(static_cast<char>(kTypeValue));
 --------PutLengthPrefixedSlice
-----DBImpl::Write
+----DBImpl::Write//Begin
 ------DBImpl::MakeRoomForWrite
 --------NewWritableFile
 --------mem_ = new MemTable(internal_comparator_);
@@ -82,8 +82,21 @@ leveldb::DBTest::Put
 ----------------------------new TableBuilder
 ----------------------------TableBuilder::Add
 --------------------MaybeScheduleCompaction
-
-
+----------------------NeedsCompaction
+----------------------PosixEnv::Schedule//recrusive calling.
+----DBImpl::Write//Middle
+------WriteBatch* DBImpl::BuildBatchGroup
+--------WriteBatchInternal::ByteSize
+--------WriteBatchInternal::Append
+------WriteBatchInternal::SetSequence
+------WriteBatchInternal::Contents
+------Writer::AddRecord//write to wal.
+--------Writer::EmitPhysicalRecord
+------WriteBatchInternal::InsertInto
+--------WriteBatch::Iterate
+----------GetLengthPrefixedSlice
+----------MemTableInserter::Put
+------------MemTable::Add
 
 
 
