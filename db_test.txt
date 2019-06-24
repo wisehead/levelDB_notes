@@ -97,6 +97,64 @@ leveldb::DBTest::Put
 ----------GetLengthPrefixedSlice
 ----------MemTableInserter::Put
 ------------MemTable::Add
+--------------SkipList<Key, Comparator>::Insert
+----------------SkipList<Key, Comparator>::RandomHeight
+
+TBD stopped at SKIPLIST insert.
+
+
+8. Compaction
+
+DBImpl::BackgroundCall
+DBImpl::Get
+DBImpl::RecordReadSample
+DBImpl::MakeRoomForWrite
+DB::Open
+
+
+
+DBImpl::MaybeScheduleCompaction
+--DBImpl::BGWork
+----DBImpl::BackgroundCall
+------DBImpl::BackgroundCompaction//
+--------//if not manual
+--------VersionSet::PickCompaction
+----------new Compaction//Compaction::Compaction
+------------
+
+
+
+
+
+
+--------//if manual
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+10.TODO 
+--SkipList insert.
+--Transaction
+--finish Write
 
 
 
