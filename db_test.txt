@@ -160,7 +160,13 @@ DBImpl::MaybeScheduleCompaction
 ------DBImpl::BackgroundCompaction//middle
 --------// else , not c->IsTrivialMove()
 --------DBImpl::DoCompactionWork
-
+----------CompactMemTable// imm compaction first if possible.
+----------Compaction::ShouldStopBefore
+----------DBImpl::FinishCompactionOutputFile
+------------TableBuilder::Finish
+--------------TableBuilder::Flush
+----------------TableBuilder::WriteBlock
+------------------BlockBuilder::Finish
 
 --------//if manual
 
