@@ -138,7 +138,28 @@ DBImpl::MaybeScheduleCompaction
 ------------GetOverlappingInputs//for level + 1, the next level.
 ------------VersionSet::GetRange2
 --------------GetRange
-
+------------compact_pointer_[level] = largest.Encode().ToString();
+------------c->edit_.SetCompactPointer(level, largest);
+------DBImpl::BackgroundCompaction//middle
+--------//if Compaction::IsTrivialMove
+--------VersionEdit::DeleteFile
+--------VersionEdit::AddFile
+--------VersionSet::LogAndApply
+----------Builder::Apply
+------------// Update compaction pointers
+------------// Delete files
+----------Builder::SaveTo
+------------Builder::MaybeAddFile
+----------VersionSet::Finalize
+----------VersionSet::WriteSnapshot
+------------Writer::AddRecord//write base, the current_ version.
+----------descriptor_log_->AddRecord(record);//write new edit
+----------descriptor_file_->Sync()
+----------SetCurrentFile
+----------VersionSet::AppendVersion
+------DBImpl::BackgroundCompaction//middle
+--------// else , not c->IsTrivialMove()
+--------DBImpl::DoCompactionWork
 
 
 --------//if manual
