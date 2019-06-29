@@ -117,13 +117,27 @@ DBImpl::MaybeScheduleCompaction
 --DBImpl::BGWork
 ----DBImpl::BackgroundCall
 ------DBImpl::BackgroundCompaction//
+--------DBImpl::CompactMemTable
+----------DBImpl::WriteLevel0Table
+------------pending_outputs_.insert(meta.number);
+------------MemTable::NewIterator
+------------BuildTableldb file
+--------------NewWritableFile
+--------------new TableBuilder
+--------------TableBuilder::Add
 --------//if not manual
 --------VersionSet::PickCompaction
 ----------new Compaction//Compaction::Compaction
-------------
-
-
-
+----------c->inputs_[0].push_back(f);
+----------c->inputs_[0].push_back(current_->file_to_compact_);
+----------VersionSet::GetRange
+----------Version::GetOverlappingInputs
+----------VersionSet::SetupOtherInputs
+------------AddBoundaryInputs
+--------------FindLargestKey
+------------GetOverlappingInputs//for level + 1, the next level.
+------------VersionSet::GetRange2
+--------------GetRange
 
 
 
