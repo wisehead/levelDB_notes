@@ -227,8 +227,11 @@ DBImpl::MaybeScheduleCompaction
 --------------DBImpl::InstallCompactionResults
 ----------------Compaction::AddInputDeletions
 ------------------VersionEdit::DeleteFile
-------------------VersionEdit::AddFile
-------------------VersionSet::LogAndApply//!!!!!!!!!!!!每次compaction都会调用LogAndApply
+----------------VersionEdit::AddFile
+----------------VersionSet::LogAndApply//!!!!!!!!!!!!每次compaction都会调用LogAndApply
+------------------Builder::Apply
+--------------------vset_->compact_pointer_[level]//update compaction pointer. of versionset.
+------------------Builder::SaveTo
 
 
 
