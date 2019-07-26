@@ -193,10 +193,13 @@ DBImpl::MaybeScheduleCompaction
 ------------DBImpl::DoCompactionWork
 --------------compact->smallest_snapshot = snapshots_.oldest()->sequence_number();
 --------------VersionSet::MakeInputIterator
---------------DBIter::SeekToFirst
+----------------NewMergingIterator//!!!!!!!!!!!!!!!!!!!!!!!!真正merge的地方
+------------------MergingIterator
+--------------MergingIterator::SeekToFirst
+----------------MergingIterator::FindSmallest
 --------------CompactMemTable();//if there are any
 --------------Compaction::ShouldStopBefore//判断level + 2, grandparent这一层的文件大小是否超过阈值
-----------------DBImpl::FinishCompactionOutputFile
+----------------DBImpl::FinishCompactionOutputFile//begin
 ------------------TableBuilder::Finish
 --------------------TableBuilder::Flush
 ----------------------TableBuilder::WriteBlock
@@ -208,9 +211,24 @@ DBImpl::MaybeScheduleCompaction
 --------------------FilterBlockBuilder::Finish
 ----------------------GenerateFilter
 --------------------BlockBuilder::Add
+--------------------TableBuilder::WriteBlock
+----------------DBImpl::FinishCompactionOutputFile//middle
+------------------compact->outfile->Sync
+------------------compact->outfile->Close
 
-
-
+------------DBImpl::DoCompactionWork//middle
+--------------DBImpl::OpenCompactionOutputFile
+----------------VersionSet::NewFileNumber
+----------------TableFileName//!!!!!!!!!!
+------------------MakeFileName(dbname, number, "ldb")
+----------------PosixEnv::NewWritableFile
+----------------new TableBuilder
+--------------MergingIterator::Next
+--------------DBImpl::InstallCompactionResults
+----------------Compaction::AddInputDeletions
+------------------VersionEdit::DeleteFile
+------------------VersionEdit::AddFile
+------------------VersionSet::LogAndApply//!!!!!!!!!!!!每次compaction都会调用LogAndApply
 
 
 
