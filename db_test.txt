@@ -167,9 +167,54 @@ DBImpl::MaybeScheduleCompaction
 --------------TableBuilder::Flush
 ----------------TableBuilder::WriteBlock
 ------------------BlockBuilder::Finish
+------------------TableBuilder::WriteRawBlock
 
 --------//if manual
 
+
+
+10.Compaction again.
+DBImpl::MaybeScheduleCompaction
+--PosixEnv::Schedule
+----DBImpl::BGWork
+------DBImpl::BackgroundCall
+--------BackgroundCompaction
+----------DBImpl::BackgroundCompaction//begin
+------------CompactMemTable//if any
+------------VersionSet::PickCompaction
+--------------VersionSet::SetupOtherInputs
+----------------AddBoundaryInputs
+----------------Version::GetOverlappingInputs//for level 0
+
+----------DBImpl::BackgroundCompaction//middle
+------------if (!is_manual && c->IsTrivialMove())
+--------------//直接Move
+------------//普通compaction
+------------DBImpl::DoCompactionWork
+--------------compact->smallest_snapshot = snapshots_.oldest()->sequence_number();
+--------------VersionSet::MakeInputIterator
+--------------DBIter::SeekToFirst
+--------------CompactMemTable();//if there are any
+--------------Compaction::ShouldStopBefore//判断level + 2, grandparent这一层的文件大小是否超过阈值
+----------------DBImpl::FinishCompactionOutputFile
+------------------TableBuilder::Finish
+--------------------TableBuilder::Flush
+----------------------TableBuilder::WriteBlock
+------------------------BlockBuilder::Finish
+------------------------TableBuilder::WriteRawBlock
+--------------------------r->file->Append(block_contents);
+------------------------BlockBuilder::Reset
+----------------------r->file->Flush
+--------------------FilterBlockBuilder::Finish
+----------------------GenerateFilter
+--------------------BlockBuilder::Add
+
+
+
+
+
+
+--------MaybeScheduleCompaction//之前的操作可能产生大量新文件，再调用一次。
 
 
 
